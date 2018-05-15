@@ -1,0 +1,130 @@
+﻿@model LoginInMVC4WithEF.Models.Registration
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="~/content/css/case.css" rel="stylesheet" />
+    <link href="~/content/css/itw.css" rel="stylesheet" />
+    @*<link href="~/content/css/login.css" rel="stylesheet" />*@
+    <link href="~/content/css/common.css" rel="stylesheet" />
+    <script type="text/javascript">
+        function checkPasswordStrength(value) {
+                switch (value.length) {
+                    case 0:
+                        this.info = "Very Weak";
+                        this.colour = "red";
+                        break;
+                    case 1:
+                        this.info = "Very Weak";
+                        break;
+                    case 2:
+                        this.info = "Weak";
+                        break;
+                    case 3:
+                        this.info = "Medium";
+                        break;
+                    case 6:
+                        this.info = "Strong";
+                        break;
+                    case 4:
+                        if (this.settings.advancedStrength) {
+                            var crackTime = String(strength.crack_time_display);
+
+                            if (crackTime.indexOf("years") !=-1) {
+                                this.info = "Very Strong";
+                            } else if (crackTime.indexOf("centuries") !=-1) {
+                                this.info = "Perfect";
+                            }
+                        } else {
+                            this.info = "Strong";
+                        }
+
+                        break;
+                }
+                $(".PasswordStrength").html(this.info);
+            }
+         
+    </script>
+</head>
+<div class="container" style="width: 100%; padding-top: 15px;">
+    <div id="dvMain" class="row">
+        <div class="col-xs-12 col-sm-2">
+        </div>
+        <div class="col-xs-12 col-sm-8">
+            <div class="t4b">
+                <a href="" target="_blank" style="text-decoration:none">
+                    <img src="/images/faq.png" style="padding-right: 5px; padding-bottom: 5px;" border="0">
+                </a>
+
+                Register Type:
+                <span class="t4orangeb">Add</span>
+            </div>
+            <div class="col-xs-12 col-sm-12 pick-hdr-wrap panel-header" style="height: 20px;">
+
+                <span id="spAttorney" class="panel-title" style="padding-left: 10px; cursor: default;">Register: </span>
+            </div>
+            <div class="form-group">
+                @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal panel-body", role = "form" }))
+                
+                {
+                    @Html.ValidationSummary(true, "Registeration Failed, fields.");
+                    <div>
+                        <div class="row" style="padding-top: 10px;">
+                            <label class="control-label col-sm-2" for="email">Email:<font class="t1br">*</font>&nbsp;&nbsp;</label>
+                            <div class="col-sm-5">
+                                @Html.TextBoxFor(u => u.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(u => u.Email)
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row" style="padding-top: 3px;">
+                            <label class="control-label col-sm-2" for="email">Password:<font class="t1br">*</font>&nbsp;&nbsp;</label>
+                            <div class="col-sm-5">
+                                @Html.PasswordFor(u => u.Password, new { @class = "form-control", @onkeypress = "checkPasswordStrength(this.value)" })
+                                @Html.ValidationMessageFor(u => u.Password)
+                                <label class="PasswordStrength"></label>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row" style="padding-top: 3px;">
+                            <label class="control-label col-sm-2" for="email">FirstName:<font class="t1br">*</font>&nbsp;&nbsp;</label>
+                            <div class="col-sm-5">
+                                @Html.TextBoxFor(u => u.FirstName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(u => u.FirstName)
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row" style="padding-top: 3px;">
+                            <label class="control-label col-sm-2" for="email">LastName:<font class="t1br">*</font>&nbsp;&nbsp;</label>
+                            <div class="col-sm-5">
+                                @Html.TextBoxFor(u => u.LastName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(u => u.LastName)
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="submit" value="Register" />
+                                <input id="btnCancel" type="button" onclick="location.href='@Url.Action("LogIn", "User")'" value="Cancel" />
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
